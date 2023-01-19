@@ -14,6 +14,8 @@
 
 - Create User is a Post Request and the url for it is http://localhost:8080/user/create
    - Sample for create - "curl --location --request POST 'http://localhost:8080/user/create' --header 'Content-Type: application/json' --data-raw '{"name":"devops"}'"
+   
+- curl --location --request POST 'http://localhost:8080/user/create' --header 'Content-Type: application/json' --data-raw '{"name":"devops","email":"umar@gamil.com","phone":"8309088421"}'
 
 - View User is a Get Request and the url for it is http://localhost:8080/user/{name}
    - Sample for view - "curl --location --request GET 'http://localhost:8080/user/devops'"
