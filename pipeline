@@ -1,0 +1,43 @@
+pipeline {
+
+  agent any
+  
+    parameters {
+
+      choice(
+        name: 'Language',
+        choices: [''],
+        description: 'Please select language' )
+        
+      choice(
+        name: 'Version',
+        choices: [''],
+        description: 'plesae select version' )  
+ 
+        }
+        
+ stages {
+ 
+ stage('Git checkout'){
+      steps {
+        git branch: '${Branch}',
+        url: 'https://github.com'
+      }
+      
+ stage ('Build Docker Image'){
+        steps {
+          sh '''
+          cd ${WORKSPACE}
+          docker build -t gcr.io/ferrous-syntax-348017/helloworld --file=Dockerfile ${WORKSPACE}
+          '''
+        }
+      }
+  stage ('Publish Docker Image'){
+        steps {
+          sh '''
+          docker push gcr.io/ferrous-syntax-348017/helloworld
+          '''
+        }
+       }
+      }
+   }
