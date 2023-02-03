@@ -6,12 +6,12 @@ pipeline {
 
       choice(
         name: 'Language',
-        choices: [''],
+        choices: ['java'],
         description: 'Please select language' )
         
       choice(
         name: 'Version',
-        choices: [''],
+        choices: ['8','11','17'],
         description: 'plesae select version' )  
  
         }
