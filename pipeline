@@ -3,11 +3,12 @@ pipeline {
   agent any
   
     parameters {
-
+    
+      
       choice(
         name: 'Language',
-        choices: ['java'],
-        description: 'Please select language' )
+        choices: ['java','nodejs'],
+        description: 'Please select choice' )
         
       choice(
         name: 'Version',
@@ -20,7 +21,6 @@ pipeline {
  
  stage('Git checkout'){
       steps {
-        git branch: '${Branch}',
         url: 'https://github.com'
       }
       
