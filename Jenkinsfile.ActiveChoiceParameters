@@ -43,14 +43,14 @@ pipeline {
                                         script: [
                                                 classpath: [], 
                                                 sandbox: false, 
-                                                script: ''
+                                                script: '''
                                                 if (Env.equals("java")){
                                                     return["version-8", "version-11", "version-17"]
                                                 }
                                                 else if(Env.equals("nodejs")){
                                                     return["version-14", "version-16", "version-18"]
                                                 }
-                                                ''
+                                                '''
                                             ] 
                                     ]
                                 ],
@@ -63,14 +63,14 @@ pipeline {
                                         [$class: 'GroovyScript', 
                                         script: 'return["Could not get Version Information"]', 
                                         script: [
-                                            script: ''
+                                            script: '''
                                                     if (Env.equals("java")){
                                                         return["version-8:  java-8", "version-11: java-11", "version-17: java-17"]
                                                     }
                                                     else if(Env.equals("nodejs")){
                                                         return["version-14:  nodejs-14", "version-16: nodejs-16", "version-18: nodejs-18"]
                                                     }
-                                                    ''
+                                                    '''
                                                 ]
                                         ]
                                 ]
