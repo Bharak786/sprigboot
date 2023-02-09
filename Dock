@@ -1,0 +1,3 @@
+FROM phusion/baseimage:0.9.17
+LABEL maintainer="syed"
+RUN apt-get -y update
