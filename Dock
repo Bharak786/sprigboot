@@ -1,7 +1,0 @@
-FROM phusion/baseimage:0.9.17
-LABEL maintainer="syed"
-RUN apt-get update 
-WORKDIR /root
-ENV 
-
-EXPOSE 8080
