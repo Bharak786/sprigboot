@@ -1,7 +1,7 @@
-FROM phusion/baseimage:0.9.17
-LABEL maintainer="syed"
-RUN apt-get update 
-WORKDIR /root
-ENV 
+FROM alpine:3.2
 
-EXPOSE 8080
+RUN apk --update add openjdk7-jre
+
+CMD ["/usr/bin/java", "-version"]
+
+RUN docker build -t syed/minimal-java .
