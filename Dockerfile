@@ -19,7 +19,7 @@ WORKDIR /app/
 COPY src /app/src
 
 # Install OpenJDK
-RUN RUN curl -L https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.1%2B13/OpenJDK11U-aarch64_linux_hotspot_11.0.1_13.tar.gz | tar xz -C /usr/local/openjdk-${JAVA_VERSION} --strip-components=1 \
+RUN curl -L https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.1%2B13/OpenJDK11U-aarch64_linux_hotspot_11.0.1_13.tar.gz | tar xz -C /usr/local/openjdk-${JAVA_VERSION} --strip-components=1 \
   && mkdir -p /usr/local/openjdk-${JAVA_VERSION} \
   && tar -zxvf /tmp/openjdk.tar.gz -C /usr/local/openjdk-${JAVA_VERSION} --strip-components=1 \
   && rm /tmp/openjdk.tar.gz
