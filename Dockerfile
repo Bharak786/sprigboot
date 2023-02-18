@@ -1,5 +1,5 @@
 FROM python:3.8-slim-buster
-ARG JAVA_VERSION
+
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
   && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \
@@ -14,6 +14,7 @@ WORKDIR /app/
 
 COPY src /app/src
 
-COPY --from=openjdk:${JAVA_VERSION}-jdk /usr/local/openjdk-${JAVA_VERSION} /app/openjdk
+ARG JAVA_VERSION
+COPY --from=openjdk:${JAVA_VERSION} /usr/local/openjdk-${JAVA_VERSION} /app/openjdk
    
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
