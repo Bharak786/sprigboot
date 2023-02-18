@@ -1,5 +1,3 @@
-ARG JAVA_VERSION
-
 FROM python:3.8-slim-buster
 
 RUN apt-get update \
@@ -11,11 +9,19 @@ RUN apt-get update \
   && apt-get install -y net-tools \
   && apt-get install -y telnet \ 
   && rm -rf /var/lib/apt/lists/*
-  
-WORKDIR /app/  
+
+ARG JAVA_VERSION
+
+RUN curl -L -O "https://download.java.net/java/GA/jdk${JAVA_VERSION}/GPL/openjdk-${JAVA_VERSION}_linux-x64_bin.tar.gz" \
+  && tar -xzf "openjdk-${JAVA_VERSION}_linux-x64_bin.tar.gz" \
+  && mkdir -p /usr/local/openjdk \
+  && mv "jdk-${JAVA_VERSION}" /usr/local/openjdk/ \
+  && rm "openjdk-${JAVA_VERSION}_linux-x64_bin.tar.gz"
+
+ENV PATH /usr/local/openjdk/jdk-${JAVA_VERSION}/bin:$PATH
+
+WORKDIR /app/
 
 COPY src /app/src
 
-COPY --from=openjdk:$JAVA_VERSION /usr/local/openjdk-$JAVA_VERSION /app/openjdk
-   
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
