@@ -1,8 +1,9 @@
-FROM openjdk:11-jdk-slim
+FROM python:3.8-slim-buster
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
   && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \
+  && apt-get install -y gcc python3-dev \
   && apt-get purge -y --auto-remove \
   && apt-get install -y curl \
   && apt-get install -y net-tools \
