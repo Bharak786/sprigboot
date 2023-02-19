@@ -1,14 +1,27 @@
-FROM arm64v8/ubuntu:18.04
+FROM python:3.8-slim-buster
 
-ENV JAVA_VERSION 11.0.1
+ARG JAVA_VERSION=11.0.14
 
-RUN apt-get update && \
-    apt-get install -y curl && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+  && dpkg --add-architecture arm64 \
+  && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \
+  && apt-get install -y gcc python3-dev \
+  && apt-get purge -y --auto-remove \
+  && rm -rf /var/lib/apt/lists/*
 
-RUN curl -L -o openjdk.tar.gz https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.1%2B13/OpenJDK11U-aarch64_linux_hotspot_11.0.1_13.tar.gz && \
-    mkdir -p /usr/local/openjdk-${JAVA_VERSION} && \
-    tar -zxvf openjdk.tar.gz -C /usr/local/openjdk-${JAVA_VERSION} --strip-components=1 && \
-    rm openjdk.tar.gz
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+RUN /root/.local/bin/poetry config virtualenvs.create false
+COPY poetry.lock pyproject.toml additional_bash_commands.sh /app/
+WORKDIR /app/
+RUN /root/.local/bin/poetry install --no-interaction --no-root
 
-ENV PATH="/usr/local/openjdk-${JAVA_VERSION}/bin:${PATH}"
+COPY src /app/src
+
+RUN /root/.local/bin/poetry install
+RUN cat additional_bash_commands.sh >> ~/.bashrc
+
+ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION}
+COPY --from=openjdk:${JAVA_VERSION}-jdk /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
+ENV PATH=${JAVA_HOME}/bin:${PATH}
+
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
