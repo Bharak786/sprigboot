@@ -17,7 +17,7 @@ RUN /root/.local/bin/poetry install --no-interaction --no-root
 
 COPY src /app/src
 
-RUN /root/.local/bin/poetry install
+RUN /root/.local/bin/poetry install --no-interaction --no-root --no-dev
 RUN cat additional_bash_commands.sh >> ~/.bashrc
 
 ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION}
