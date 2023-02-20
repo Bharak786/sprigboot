@@ -1,6 +1,6 @@
 ARG JAVA_VERSION
 
-FROM openjdk:11-jdk-slim
+FROM openjdk:${JAVA_VERSION}
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
@@ -14,6 +14,6 @@ WORKDIR /app/
 
 COPY src /app/src
 
-COPY --from=openjdk:${JAVA_VERSION}-jdk /usr/local/openjdk-${JAVA_VERSION}  /app/openjdk
+COPY --from=openjdk:11-jdk /usr/local/openjdk-11  /app/openjdk
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
