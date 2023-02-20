@@ -4,6 +4,7 @@ FROM openjdk:${JAVA_VERSION}
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
+  && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \
   && apt-get install -y curl \
   && apt-get install -y net-tools \
   && apt-get install -y telnet \
