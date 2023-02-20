@@ -1,6 +1,6 @@
-FROM openjdk:11-jdk-slim
-
 ARG JAVA_VERSION
+
+FROM openjdk:11-jdk-slim
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
